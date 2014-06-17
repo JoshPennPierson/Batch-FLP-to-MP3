@@ -10,7 +10,7 @@ Instructions:
 * If you have AutoHotkey installed, you can just run the .ahk file, otherwise, you'll need to run the .exe file.
 * FLP files can be anywhere within the folder that you choose, even many folders down.
 * MP3s will be exported to each FLP project's folder.
-* Make sure before hand that when FL Studio opens up it is in fullscreen mode.
+* Make sure beforehand that when FL Studio opens up it is in fullscreen mode.
 * <b>It is important that you put the mouse in the upper right corner of your screen (or anywhere that will not change the FL Studio dialogue box). You also cannot be doing anything else while exporting, so it is a good thing to do while you are away from the computer or sleeping.</b>
 
 Bugs:
