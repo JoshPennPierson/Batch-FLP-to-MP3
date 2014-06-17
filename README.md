@@ -13,7 +13,7 @@ Instructions:
 
 Bugs:
 
-* I've only tested this at length once. It exported 17 songs in a row and then got stuck at the 18th, but that's still a lot of time that it can save you.
+* I've only tested this at length once. It exported 17 songs in a row and then got stuck at the 18th, but that's still a lot of time saved.
 
 Future Features:
 
