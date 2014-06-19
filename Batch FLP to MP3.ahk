@@ -1,16 +1,17 @@
 ;calibration
+Run, calibration.flp ;Load FL Studio so that we can move the mouse to the correct position
 Sleep, 1000 ;(wait 1 seconds)
-MouseMove, 0, 0, 5 ;get the mouse out of the way
-Run, calibration.flp
-Sleep, 5000 ;(wait 5 seconds)
+MouseMove, 0, 0, 5 ;Get the mouse out of the way
+Sleep, 1000 ;(wait 1 seconds)
+Run, calibration.flp ;Load the calibration file to sample the pixels when the FL dialoge box says 'Project Loaded'
+Sleep, 5000 ;(wait 3 seconds)
 PixelGetColor, CalA, %WindowX%+20, %WindowY%+65
 PixelGetColor, CalB, %WindowX%+21, %WindowY%+65
 PixelGetColor, CalC, %WindowX%+22, %WindowY%+65
 PixelGetColor, CalD, %WindowX%+23, %WindowY%+65
 PixelGetColor, CalE, %WindowX%+24, %WindowY%+65
 PixelGetColor, CalF, %WindowX%+25, %WindowY%+65
-
-MouseMove, (A_ScreenWidth // 2), (A_ScreenHeight // 2), 5 ;move mouse back
+MouseMove, (A_ScreenWidth // 2), (A_ScreenHeight // 2), 5 ;Move mouse back
 
 ;User selects folder containing FLP files
 FileSelectFolder, Directory, , 0, Select Folder Containing FLP Files
@@ -32,7 +33,7 @@ list_files(Directory)
 
 Loop
 {
-	MouseMove, 0, 0, 0 ;get the mouse out of the way
+	MouseMove, 0, 0, 0 ;Get the mouse out of the way
 	;Progress bar (currently not implemented)
 	;Progress, %A_Index%, %CurrentSong%, Exporting to MP3..., Batch FLPs to MP3s
 
