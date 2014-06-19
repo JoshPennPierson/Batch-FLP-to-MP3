@@ -1,11 +1,25 @@
+;calibration
+Sleep, 1000 ;(wait 1 seconds)
+MouseMove, 0, 0, 5 ;get the mouse out of the way
+Run, calibration.flp
+Sleep, 5000 ;(wait 5 seconds)
+PixelGetColor, CalA, %WindowX%+20, %WindowY%+65
+PixelGetColor, CalB, %WindowX%+21, %WindowY%+65
+PixelGetColor, CalC, %WindowX%+22, %WindowY%+65
+PixelGetColor, CalD, %WindowX%+23, %WindowY%+65
+PixelGetColor, CalE, %WindowX%+24, %WindowY%+65
+PixelGetColor, CalF, %WindowX%+25, %WindowY%+65
+
+MouseMove, (A_ScreenWidth // 2), (A_ScreenHeight // 2), 5 ;move mouse back
+
 ;User selects folder containing FLP files
 FileSelectFolder, Directory, , 0, Select Folder Containing FLP Files
-;If they cancel, exit the application
 if Directory =
     Exit
 
-;creates a file containing the directories for all the FLP files in the chosen folder
+;Creates a file containing the names of all the FLP files in the directory
 FileAppend, % list_files(Directory), Directory.txt
+count := 0
 list_files(Directory)
 {
 	files =
@@ -16,9 +30,9 @@ list_files(Directory)
 	return files
 }
 
-;main loop that does all the exporting
 Loop
 {
+	MouseMove, 0, 0, 0 ;get the mouse out of the way
 	;Progress bar (currently not implemented)
 	;Progress, %A_Index%, %CurrentSong%, Exporting to MP3..., Batch FLPs to MP3s
 
@@ -33,8 +47,8 @@ Loop
 	Run, %CurrentSong%
 	Sleep, 2000 ;(wait 2 seconds)
 	
-	;FL Studio needs to be full screen for this next part
-	;Waits for project to load (done by detecting the pixels in the FL dialogue box that say 'Project Loaded')
+	;FL Studio needs to be full screen
+	;Wait for project to load (done by detecting the pixels in the FL dialogue box that say 'Project Loaded')
 	Loop {
 		PixelGetColor, ColorA, %WindowX%+20, %WindowY%+65
 		PixelGetColor, ColorB, %WindowX%+21, %WindowY%+65
@@ -42,12 +56,12 @@ Loop
 		PixelGetColor, ColorD, %WindowX%+23, %WindowY%+65
 		PixelGetColor, ColorE, %WindowX%+24, %WindowY%+65
 		PixelGetColor, ColorF, %WindowX%+25, %WindowY%+65
-		If ColorA = 0x464533
-			If ColorB = 0x454432
-				If ColorC = 0x654B33
-					If ColorD = 0xCAB883
-						If ColorE = 0x628DA5
-							If ColorF = 0x464538
+		If ColorA = %CalA%
+			If ColorB = %CalB%
+				If ColorC = %CalC%
+					If ColorD = %CalD%
+						If ColorE = %CalE%
+							If ColorF = %CalF%
 								Break
 	}
 

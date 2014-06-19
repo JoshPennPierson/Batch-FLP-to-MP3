@@ -5,13 +5,13 @@ This is an AutoHotkey script that allows for the exporting of multiple FLP files
 
 Instructions:
 
-* Make sure that none of your songs have the display project info turned on (F11 opens the project info window, uncheck 'show it on openning' if it is checked).
-* If there is already an MP3 file of the project in the flp project folder, this application will not work past the point of reaching that song.
+* Make sure that none of your songs have the display project info turned on (F11 opens the project info window, uncheck 'show it on opening' if it is checked).
+* If there is already an MP3 file of the project in the FLP project folder, this application will not work past the point of reaching that song.
 * If you have AutoHotkey installed, you can just run the .ahk file, otherwise, you'll need to run the .exe file.
 * FLP files can be anywhere within the folder that you choose, even many folders down.
 * MP3s will be exported to each FLP project's folder.
-* Make sure beforehand that when FL Studio opens up it is in fullscreen mode.
-* <b>It is important that you put the mouse in the upper right corner of your screen (or anywhere that will not change the FL Studio dialogue box). You also cannot be doing anything else while exporting, so it is a good thing to do while you are away from the computer or sleeping.</b>
+* <b>It is important that you don't move the mouse when it is up in the corner so that you don't affect the text in the FL Studio dialogue box. You also cannot be doing anything else while exporting, so it would be good to do this while you are away from the computer or sleeping.</b>
+* The calibration.flp file will run first to determine the pixels in the dialogue box as they appear on your screen, and then you will be prompted to select a folder.
 
 Bugs:
 
