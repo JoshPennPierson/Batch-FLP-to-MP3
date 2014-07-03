@@ -21,3 +21,5 @@ Bugs:
 Future Features:
 
 * If people want to be able to export to WAV files as well, it would be easy to make an interface where you can choose either MP3, WAV, or both.
+
+I wrote this script to help me export my album [Bringing Down The Fairy Tale](http://bdtft.com). Hopefully it helps you as well :)
