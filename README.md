@@ -5,7 +5,7 @@ I wrote this script to help me save time while exporting my album [Bringing Down
 
 This is an AutoHotkey script that allows for the exporting of multiple FLP files in Fl Studio to MP3.
 
-It's been brought to my attention that with FL Studio 12 it is now possible to [use command line to batch export](http://www.image-line.com/support/FLHelp/html/fformats_save_wavmidmp3.htm#commandline_export). So if you're feeling up to it, I would use that since it provides more options and is way less likely to be buggy, but if you're looking for a simple solution, then hopefully this script provides what you need.
+It's been brought to my attention that with FL Studio 12 it is now possible to [use command line to batch export](http://www.image-line.com/support/FLHelp/html/fformats_save_wavmidmp3.htm#commandline_export). Check out [this example](https://www.reddit.com/r/FL_Studio/comments/5k08cu/batch_export_flp_files/dbkdo88/?utm_content=permalink&utm_medium=front&utm_source=reddit&utm_name=FL_Studio). So if you're feeling up to it, I would use that since it provides more options and is way less likely to be buggy, but if you're looking for a simple solution, then hopefully this script provides what you need.
 
 Instructions:
 
