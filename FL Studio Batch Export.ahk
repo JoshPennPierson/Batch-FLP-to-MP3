@@ -2,18 +2,19 @@
 ; Make the status bar its own GUI so that you can close it.
 ; Give the script an exit button and have it delete any mp3s that are unfinished.
 
-Gui, Add, Text, w400, This is a script for batch exporting FLP files to MP3.`n`nWritten by Josh Penn-Pierson.`nFind the source files at:
+Gui, Add, Text, w400, This is a script for batch exporting FLP files to MP3/WAV.`n`nWritten by Josh Penn-Pierson.`nFind the source files at:
 Gui, Add, Link, w400, <a href="https://github.com/BflySamurai/Batch-FLP-to-MP3">https://github.com/BflySamurai/Batch-FLP-to-MP3</a>
 
-Gui, Add, Text, w400, For best use:`n1) In all the FLP file directories, remove any MP3s with the exact same name as the FLP (so that FL Studio does not ask if you want to overwrite duplicate file).`nExample: my_song_name.flp, my_song_name.mp3`n2) Clear our the desired output folder of any duplicates as well (best would just be to output to an empty folder).
+Gui, Add, Text, w400, For best use:`n1) In all the FLP file directories, remove any MP3s/WAVs with the exact same name as the FLP (so that FL Studio does not ask if you want to overwrite duplicate file).`nExample: my_song_name.flp, my_song_name.mp3`n2) Clear our the desired output folder of any duplicates as well (best would just be to output to an empty folder).
 
-Gui, Add, Text, w400, Notes:`n* Script last updated December, 2016.`n* I have only tested this with FL Studio 12 on Windows 10.`n* If you stop the script while it's rendering a song, it will leave behind the MP3 that was last rendering in the file directory for the FLP file.`n* You can minimize and maximize FL Studio (or enable Background Rendering) at any point, but leaving FL Studio maximized seems to make the script not be able to detect when the song is finished rendering (and thus won't move on to the next song).`n* You can manually abort a rendering song in the FL Studio interface and the script will continue to the next song (although the MP3 will still be left behind in the destination folder).`n* You can use your computer while running the script, but be aware that when FL Studio isn't rendering a song, pressing buttons has the possibility of interrupting this script. Also, you will notice that some of the FL Studio dialogue boxes will be popping up over whatever you're working on in between each render.`n* If the script tries to export a file that is the same name as a file that already exists in that directory, you will have to manually select "Yes" or "No" (leaving the file name how it is or changing it) and then press "Save". If you select "Cancel", the script won't be able to take back over since it's waiting for a song to finish rendering before starting another.`n* After the songs start rendering, if at any point a song isn't rendering, that means the script encountered an error (possibly a duplicate file) and you'll need to restart the script.`n
+Gui, Add, Text, w400, Notes:`n* Script last updated March, 2019.`n* I have only tested this with FL Studio 12 and FL Studio 20 on Windows 10.`n* If you stop the script while it's rendering a song, it will leave behind the MP3/WAV that was last rendering in the file directory for the FLP file.`n* You can minimize and maximize FL Studio (or enable Background Rendering) at any point, but leaving FL Studio maximized seems to make the script not be able to detect when the song is finished rendering (and thus won't move on to the next song).`n* You can manually abort a rendering song in the FL Studio interface and the script will continue to the next song (although the MP3/WAV will still be left behind in the destination folder).`n* You can use your computer while running the script, but be aware that when FL Studio isn't rendering a song, pressing buttons has the possibility of interrupting this script. Also, you will notice that some of the FL Studio dialogue boxes will be popping up over whatever you're working on in between each render.`n* If the script tries to export a file that is the same name as a file that already exists in that directory, you will have to manually select "Yes" or "No" (leaving the file name how it is or changing it) and then press "Save". If you select "Cancel", the script won't be able to take back over since it's waiting for a song to finish rendering before starting another.`n* After the songs start rendering, if at any point a song isn't rendering, that means the script encountered an error (possibly a duplicate file) and you'll need to restart the script.`n
 
 ;Gui, Add, Checkbox, Checked vMinimized, Run FL Studio minimized (not running minimized is buggy)
 ;Gui, Add, Text
 ;Gui, Add, Checkbox, vOverwrite, Overwrite duplicate files (dangerous)
 ;Gui, Add, Text
-Gui, Add, button, gStartExporting w400 h50, Start exporting FLPs to MP3s
+Gui, Add, button, gStartExportingMP3 w400 h50, Start exporting FLPs to MP3s
+Gui, Add, button, gStartExportingWAV w400 h50, Start exporting FLPs to WAVs
 Gui, Add, Text
 Gui, Add, button, gStopExporting, Stop and exit
 
@@ -26,14 +27,18 @@ Test:
 	GuiControl,, MyProgress, +10
 	Return
 
-StartExporting:
+StartExportingMP3:
 	;Gui Destroy
 	;Gui, Add, Progress, w280 h30 vMyProgress -Smooth , 0
 	;Gui, Add, Button, w280 h20 gTest, Test
 	;Gui, Show
 	;winSetTitle, ahk_class AutoHotkeyGUI,, FL Studio Batch Export
 	
-	Export()
+	Export("MP3")
+	Return
+
+StartExportingWAV:
+	Export("WAV")
 	Return
 
 StopExporting:
@@ -41,7 +46,7 @@ StopExporting:
 	ExitApp
 
 
-Export()
+Export(export_type)
 {
 
 	;User selects folder containing FLP files
@@ -50,7 +55,7 @@ Export()
 		Exit
 
 	;User selects folder containing FLP files
-	FileSelectFolder, ExportDirectory, , 0, Select directory to save Mp3s.
+	FileSelectFolder, ExportDirectory, , 0, Select directory to save %export_type%s.
 	if ExportDirectory =
 		Exit
 
@@ -103,8 +108,12 @@ Export()
 			Percent := (A_Index / FileCount)*100 ; Calculate the percent of songs done
 			Progress, %Percent% ; Set the position of the bar
 
-		; Bring up FL Studio's MP3 export dialoge
-		ControlSend, , {Control Down}{Shift Down}{r}{Control Up}{Shift Up}, FL Studio
+		if (export_type = "MP3") {  ; Bring up FL Studio's MP3 export dialoge
+			ControlSend, , {Control Down}{Shift Down}{r}{Control Up}{Shift Up}, FL Studio
+		}
+		else if (export_type = "WAV") {  ; Bring up FL Studio's WAV export dialoge
+			ControlSend, , {Control Down}{r}{Control Up}, FL Studio
+		}
 		
 		If Minimized
 			WinMinimize, FL Studio ; Disable this if you don't want FL Studio to automatically minimize
@@ -135,7 +144,12 @@ Export()
 			
 			; Move the file to the chosen export directory
 			StringTrimRight, FileMove, File, 4
-			FileMove = %FileMove%.mp3
+			if (export_type = "MP3") {  ; Bring up FL Studio's MP3 export dialoge
+				FileMove = %FileMove%.mp3
+			}
+			else if (export_type = "WAV") {  ; Bring up FL Studio's WAV export dialoge
+				FileMove = %FileMove%.wav
+			}
 			FileMove, %FileMove%, %ExportDirectory%  ; Move the file without renaming it.
 		}
 	}
@@ -153,7 +167,7 @@ Export()
 	Run, %ExportDirectory%
 
 	Sleep, 200
-	MsgBox, Finished exporting all FLPs to MP3s.
+	MsgBox, Finished exporting all FLPs to %export_type%s.
 	ExitApp
 
 }
