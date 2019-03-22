@@ -53,9 +53,10 @@ CreateGui1()
 	Gui, Add, Text, x130 y8, Additional Options
 	Gui, Add, Radio, Checked gDestinationFolder vRadio1, Export to destination folder
 	Gui, Add, Radio, gDestinationFolder vRadio2, Export to project folders
-	Gui, Add, Checkbox, vminimizedFL, Run FL Studio minimized when possible
+	Gui, Add, Text
+	Gui, Add, Checkbox, vminimizedFL, Minimize FL Studio when possible
 	Gui, Add, Checkbox, vminimizedFLPopup, Minimize Fl Studio render popup
-	Gui, Add, Text, x20,  WARNING: Make sure to remove any files in the destination folder`rwith the same name as the FL Studio Project files or they will be`roverwritten and cannot be recovered.
+	Gui, Add, Text, x20,  WARNING: Make sure to remove any files in the destination`rfolder with the same name as the FL Studio Project files or`rthey will be overwritten and cannot be recovered.
 	Gui, Add, Text, x20,  NOTE: Close FL Studio before starting batch export.
 	Gui, Add, button, gStartExport w200 h50, Start Exporting
 
