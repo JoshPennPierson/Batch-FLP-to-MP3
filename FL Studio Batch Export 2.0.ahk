@@ -6,6 +6,7 @@ global abortAll
 
 global destination = True
 global minimizedFL = False
+global minimizedFLPopup = False
 global totalFileCount = 0
 global currentFileCount = 0
 global percent = 0
@@ -29,7 +30,7 @@ DestinationFolder:
 StartExport:
 	Gui, Submit, NoHide  ; Submit the states of the GUI boxes
 	If (mp3 or wav or ogg or flac or midi) {
-		Export(mp3, wav, ogg, flac, midi, destination, minimizedFL)
+		Export(mp3, wav, ogg, flac, midi, destination, minimizedFL, minimizedFLPopup)
 	}
 	Else {
 		msgbox Select at least one export type
@@ -53,6 +54,7 @@ CreateGui1()
 	Gui, Add, Radio, Checked gDestinationFolder vRadio1, Export to destination folder
 	Gui, Add, Radio, gDestinationFolder vRadio2, Export to project folders
 	Gui, Add, Checkbox, vminimizedFL, Run FL Studio minimized when possible
+	Gui, Add, Checkbox, vminimizedFLPopup, Minimize Fl Studio render popup
 	Gui, Add, Text, x20,  WARNING: Make sure to remove any files in the destination folder`rwith the same name as the FL Studio Project files or they will be`roverwritten and cannot be recovered.
 	Gui, Add, Text, x20,  NOTE: Close FL Studio before starting batch export.
 	Gui, Add, button, gStartExport w200 h50, Start Exporting
@@ -107,7 +109,7 @@ AbortAll() {
 	Return
 }
 
-Export(mp3, wav, ogg, flac, midi, destination, minimizedFL)
+Export(mp3, wav, ogg, flac, midi, destination, minimizedFL, minimizedFLPopup)
 {
 	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 	;; Figure out folder path for the FL Studio Exe ;;
@@ -233,7 +235,7 @@ Export(mp3, wav, ogg, flac, midi, destination, minimizedFL)
 	; Minimize FL if needed
 	If (minimizedFL)
 		IfWinExist ahk_class TFruityLoopsMainForm
-				WinMinimize
+			WinMinimize
 	
 	; Wait for the rendering popup to show
 	WinWait, Rendering to
@@ -241,7 +243,11 @@ Export(mp3, wav, ogg, flac, midi, destination, minimizedFL)
 	; Minimize FL if needed
 	If (minimizedFL)
 		IfWinExist ahk_class TFruityLoopsMainForm
-				WinMinimize
+			WinMinimize
+	; Minimize FL rended popup if needed
+	if (minimizedFLPopup)
+		IfWinExist ahk_class TWAVRenderForm
+			WinMinimize
 	
 	; Update GUI
 	currentFileCount += 1
