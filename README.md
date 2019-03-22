@@ -1,20 +1,12 @@
-Batch-FLP-to-MP3/WAV
-====================
+Batch-FLP-to-MP3/WAV/OGG/FLAC/MIDI
+==================================
 
-I wrote this script to help me save time while exporting my album [Bringing Down The Fairy Tale](http://bdtft.com). Hopefully it helps you as well :)
+I originally wrote this script to save myself time while exporting my album [Bringing Down The Fairy Tale](http://bdtft.com). Hopefully it helps you as well :)
 
-This is an AutoHotkey script that allows for the exporting of multiple FLP files in Fl Studio to MP3/WAV.
+This is an AutoHotkey script that allows for the exporting of multiple FLP files in Fl Studio to MP3/WAV/OGG/FLAC/MIDI. The script utilizes the [use command line to batch export](http://www.image-line.com/support/FLHelp/html/fformats_save_wavmidmp3.htm#commandline_export) that was implemented with FL Studio 12. In addition, this Autohotkey script provides a progress bar to track how many songs have been exported and it allows for the minimizing of FL Studio (whenever it is possible to make FL Studio minimized).
 
-It's been brought to my attention that with FL Studio 12 it is now possible to [use command line to batch export](http://www.image-line.com/support/FLHelp/html/fformats_save_wavmidmp3.htm#commandline_export). Check out [this example](https://www.reddit.com/r/FL_Studio/comments/5k08cu/batch_export_flp_files/dbkdo88/?utm_content=permalink&utm_medium=front&utm_source=reddit&utm_name=FL_Studio). So if you're feeling up to it, I would use that since it provides more options and is way less likely to be buggy, but if you're looking for a simple solution, then hopefully this script provides what you need.
+If you have AutoHotkey installed, you can just run the .ahk file, otherwise, you'll need to run the .exe file.
 
-Instructions:
+Be aware that if trying to export to MIDI and the project isn't set up properly for MIDI export, you will get an error message within FL Studio and will need to manually click 'OK' to continue.
 
-* Make sure that none of your songs have the display project info turned on (F11 opens the project info window, uncheck 'show it on opening' if it is checked).
-* If you have AutoHotkey installed, you can just run the .ahk file, otherwise, you'll need to run the .exe file.
-* FLP files can be anywhere within the folder that you choose, even many folders down.
-* MP3s will be exported to each FLP project's folder and then moved to the selected output folder (so if the script is stopped while an MP3 is rendering, it won't get moved).
-
-Features ideas (these aren't implemented currently):
-
-* Checkbox at the start for running FL Studio minimized.
-* Checkbox at the start to automatically overwrite duplicate songs (leaving off just skips that song).
+~~Make sure that none of your songs have the display project info turned on (F11 opens the project info window, uncheck 'show it on opening' if it is checked).~~
