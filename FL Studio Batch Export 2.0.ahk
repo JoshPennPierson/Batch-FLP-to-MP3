@@ -3,7 +3,6 @@
 global progressBar
 global exportData
 global abortAll
-
 global destination = True
 global minimizedFL = False
 global minimizedFLPopup = False
@@ -207,12 +206,19 @@ Export(mp3, wav, ogg, flac, midi, destination, minimizedFL, minimizedFLPopup)
 	;; Run command line script ;;
 	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 	
-	;run, %comspec% cd %appFolderPath% && %script%
 	DetectHiddenWindows, On
 	run, %comspec% /K cd %appFolderPath% && %script% ,, Hide
-	WinWait, ahk_exe FL.exe  ; Wait for FL Studio to open
-	Process, Close, cmd.exe  ; Then close the command prompt
-
+	WinWait, %comspec%,, 3  ; Wait for the command prompt to open
+	If ErrorLevel {
+		msgbox, Error Running Command Line Script:`n %comspec% /K cd %appFolderPath% && %script%
+		Return
+	}
+	WinWait, ahk_exe FL.exe,, 4  ; Wait for FL Studio to open
+	If ErrorLevel {
+		msgbox, Error Running Launching FL Studio:`n %comspec% /K cd %appFolderPath% && %script%
+		Return
+	}
+	Process, Close, %comspec%  ; Then close the command prompt
 	
 	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 	;; Calculate how many songs there are to export ;;
