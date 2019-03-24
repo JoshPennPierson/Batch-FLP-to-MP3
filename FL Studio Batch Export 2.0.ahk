@@ -209,20 +209,25 @@ Export(mp3, wav, ogg, flac, midi, destination, minimizedFL, minimizedFLPopup)
 	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 	
 	DetectHiddenWindows, On
-	run, %comspec% /K cd %appFolderPath% && %script% ,, Hide
-	WinWait, %comspec%,, 3  ; Wait for the command prompt to open
+	;run, %comspec% /K cd %appFolderPath% && %script% ,, Hide
+	WinWait, %comspec%,, 2  ; Wait for the command prompt to open
+	WinWait, ahk_exe %appFileName%,, 2  ; Wait for FL Studio to open
 	If ErrorLevel {
-		Process, Close, %comspec%  ; Then close the command prompt
-		msgbox, Error Running Command Line Script:`n %comspec% /K cd %appFolderPath% && %script%
-		Return
+		ControlSend,, exit`n, %comspec%  ; Close the command prompt
+		
+		; Try using control sent to sent text to command prompt if the other method failed
+		run, cmd.exe
+		WinWait, cmd.exe,, 2
+		ControlSend,, cd %appFolderPath%`n, ahk_exe cmd.exe
+		ControlSend,, %script%, ahk_exe cmd.exe 
+		WinWait, ahk_exe %appFileName%,, 3  ; Wait for FL Studio to open
+		If ErrorLevel {
+			msgbox, Error launching FL Studio:. See command prompt for error.
+			Return
+		}
+		ControlSend,, exit`n, ahk_exe cmd.exe  ; Close the command prompt
 	}
-	WinWait, ahk_exe %appFileName%,, 4  ; Wait for FL Studio to open
-	If ErrorLevel {
-		Process, Close, %comspec%  ; Then close the command prompt
-		msgbox, Error Launching FL Studio:`n %comspec% /K cd %appFolderPath% && %script%
-		Return
-	}
-	Process, Close, %comspec%  ; Then close the command prompt
+	ControlSend,, exit`n, %comspec%  ; Close the command prompt
 	
 	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 	;; Calculate how many songs there are to export ;;
