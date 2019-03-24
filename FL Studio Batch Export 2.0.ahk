@@ -1,5 +1,6 @@
 ; This script utilizes the command line exporting options that FL Studio provides (https://www.image-line.com/support/flstudio_online_manual/html/fformats_save_export.htm)
 
+global appFileName
 global progressBar
 global exportData
 global abortAll
@@ -103,7 +104,7 @@ AssocQueryApp(Ext)
 }
 
 AbortAll() {
-	Process, Close, FL.exe
+	Process, Close, %appFileName%
 	thisText = Export has been aborted.`n%currentFileCount% of %totalFileCount% songs were exported.
 	CreateGui3(thisText)
 	Return
@@ -134,7 +135,7 @@ Export(mp3, wav, ogg, flac, midi, destination, minimizedFL, minimizedFLPopup)
 	appFilePath := SubStr(rawAppFilePath, 1, charCount)  ; Grab all characters between (and including) first set of double quotes
 
 
-	;;;;; Extract the folder path ;;;;;
+	;;;;; Extract the folder path and the file name ;;;;;
 
 	lastBackslashPos = 1
 	posCounter = 1
@@ -145,6 +146,7 @@ Export(mp3, wav, ogg, flac, midi, destination, minimizedFL, minimizedFLPopup)
 		posCounter += 1
 	}
 	appFolderPath := SubStr(appFilePath, 1, lastBackslashPos-1)""""  ; Append a double quote to the end
+	appFileName := SubStr(appFilePath, lastBackslashPos+1, StrLen(appFilePath)-lastBackslashPos-1)  ; Remove double quote at the end
 
 
 	;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -197,7 +199,7 @@ Export(mp3, wav, ogg, flac, midi, destination, minimizedFL, minimizedFLPopup)
 		Else
 			exportTypeList = %exportTypeList%,mid
 	
-	script = FL.exe /R /E%exportTypeList% /F"%sourceDirectory%"
+	script = %appFileName% /R /E%exportTypeList% /F"%sourceDirectory%"
 	if (destination == True)
 		script = %script% /O"%destinationDirectory%"
 	script = %script%`n
@@ -210,11 +212,13 @@ Export(mp3, wav, ogg, flac, midi, destination, minimizedFL, minimizedFLPopup)
 	run, %comspec% /K cd %appFolderPath% && %script% ,, Hide
 	WinWait, %comspec%,, 3  ; Wait for the command prompt to open
 	If ErrorLevel {
+		Process, Close, %comspec%  ; Then close the command prompt
 		msgbox, Error Running Command Line Script:`n %comspec% /K cd %appFolderPath% && %script%
 		Return
 	}
-	WinWait, ahk_exe FL.exe,, 4  ; Wait for FL Studio to open
+	WinWait, ahk_exe %appFileName%,, 4  ; Wait for FL Studio to open
 	If ErrorLevel {
+		Process, Close, %comspec%  ; Then close the command prompt
 		msgbox, Error Launching FL Studio:`n %comspec% /K cd %appFolderPath% && %script%
 		Return
 	}
