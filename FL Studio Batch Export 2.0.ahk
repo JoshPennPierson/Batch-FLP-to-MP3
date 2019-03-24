@@ -215,7 +215,7 @@ Export(mp3, wav, ogg, flac, midi, destination, minimizedFL, minimizedFLPopup)
 	}
 	WinWait, ahk_exe FL.exe,, 4  ; Wait for FL Studio to open
 	If ErrorLevel {
-		msgbox, Error Running Launching FL Studio:`n %comspec% /K cd %appFolderPath% && %script%
+		msgbox, Error Launching FL Studio:`n %comspec% /K cd %appFolderPath% && %script%
 		Return
 	}
 	Process, Close, %comspec%  ; Then close the command prompt
