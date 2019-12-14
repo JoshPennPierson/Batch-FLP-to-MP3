@@ -84,7 +84,7 @@ CreateGui3(thisText)
 
 AssocQueryApp(Ext)
 {
-	; This scrpit finds the file path of the executable associated with a given file extension
+	; This script finds the file path of the executable associated with a given file extension
 	; Script source: https://autohotkey.com/board/topic/54927-regread-associated-program-for-a-file-extension/
 	RegRead, type, HKCU, Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.%Ext%, Application
 	If !ErrorLevel { ;Current user has overridden default setting
@@ -221,7 +221,7 @@ Export(mp3, wav, ogg, flac, midi, destination, minimizedFL, minimizedFLPopup)
 	;; Calculate how many songs there are to export ;;
 	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 	
-	Loop Files, %sourceDirectory%\*.flp, R ; Recurse into subfolders
+	Loop Files, %sourceDirectory%\*.flp, R ; Recurse into sub-folders
 	{
 		totalFileCount += 1
 	}
@@ -248,7 +248,7 @@ Export(mp3, wav, ogg, flac, midi, destination, minimizedFL, minimizedFLPopup)
 	If (minimizedFL)
 		IfWinExist ahk_class TFruityLoopsMainForm
 			WinMinimize
-	; Minimize FL rended popup if needed
+	; Minimize FL render popup if needed
 	if (minimizedFLPopup)
 		IfWinExist ahk_class TWAVRenderForm
 			WinMinimize
